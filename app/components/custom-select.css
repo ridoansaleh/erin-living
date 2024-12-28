@@ -1,0 +1,43 @@
+.custom-select {
+  .label {
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 20px;
+    text-align: left;
+    color: #A1AFC3;
+    margin-bottom: 10px;
+  }
+  .input {
+    height: 52px;
+    width: 100%;
+    padding: 14px 16px 14px 16px;
+    border-radius: 12px;
+    border: 1px solid #ffffff80;
+    background: linear-gradient(
+      92.46deg,
+      rgba(255, 255, 255, 0.9) 0%,
+      rgba(255, 255, 255, 0.7) 100%
+    );
+    backdrop-filter: blur(12px);
+    box-shadow: 0px 8px 32px 0px #6e71911f;
+    color: #dcdcdc;
+  }
+  .input.filled {
+    color: #404040;
+  }
+
+  .dropdown {
+    width: 100%;
+    padding: 8px 16px;
+    margin-top: 5px;
+    border-radius: 12px;
+    list-style: none;
+    li {
+      height: 40px;
+      font-size: 12px;
+      font-weight: 400;
+      line-height: 20px;
+      text-align: left;
+    }
+  }
+}
