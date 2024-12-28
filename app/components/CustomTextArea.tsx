@@ -20,15 +20,14 @@ const CustomTextarea: React.FC<CustomTextareaProps> = ({
   };
 
   return (
-    <div className="custom-textarea flex flex-col">
-      <label className="block mb-2 text-sm font-medium text-gray-700">
+    <div className="custom-textarea">
+      <div className="label">
         {label}
-      </label>
+      </div>
       <textarea
         value={value}
         onChange={handleChange}
         maxLength={maxLength}
-        className={`w-full border rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500`}
         {...props}
       />
     </div>
