@@ -47,13 +47,12 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
   return (
     <div ref={dropdownRef} className={`custom-select relative ${className}`}>
       <div className="label">{label}</div>
-      {/* Trigger Button */}
       <button
-        className={`input flex justify-between items-center text-leftx bg-white focus:outline-none ${
+        type="button"
+        className={`input flex justify-between items-center bg-white ${
           value ? "filled" : ""
         }`}
         onClick={toggleDropdown}
-        type="button"
       >
         <span>
           {value
@@ -62,16 +61,12 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
         </span>
         <Image src="/select-arrow-down.png" alt="" width={24} height={24} />
       </button>
-
-      {/* Dropdown Menu */}
       {isOpen && (
         <ul className="dropdown absolute bg-white z-10">
           {options.map((option) => (
             <li
               key={option.value}
-              className={`flex items-center px-4 py-2 cursor-pointer hover:bg-gray-100 ${
-                value === option.value ? "bg-gray-100 font-bold" : ""
-              }`}
+              className="flex items-center"
               onClick={() => {
                 onChange(option.value);
                 setIsOpen(false);
