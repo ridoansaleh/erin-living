@@ -41,6 +41,7 @@
       position: fixed;
       right: 16px;
       bottom: 32px;
+      cursor: pointer;
       @media only screen and (min-width: 992px) {
         position: absolute;
         right: calc((100vw - 636px - 32px) / 2);
