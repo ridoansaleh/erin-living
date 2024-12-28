@@ -2,14 +2,14 @@ import React from "react";
 import "./custom-input.css";
 
 interface CustomInputProps {
-  type?: string; // Input type (default: "text")
+  type?: string;
   label: string;
-  value: string; // Current input value
-  onChange: (value: string) => void; // Callback for value change
-  placeholder?: string; // Placeholder text
-  disabled?: boolean; // Disable input
-  className?: string; // Additional classes for styling
-  name?: string; // Input name
+  value: string;
+  onChange: (value: string) => void;
+  placeholder?: string;
+  disabled?: boolean;
+  className?: string;
+  name?: string;
 }
 
 const CustomInput: React.FC<CustomInputProps> = ({
@@ -32,7 +32,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
         placeholder={placeholder}
         disabled={disabled}
         name={name}
-        className={`border rounded px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ${className}`}
+        className={className}
       />
     </div>
   );
