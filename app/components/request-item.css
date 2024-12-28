@@ -1,0 +1,65 @@
+.request-item:not(:last-child) {
+  margin-bottom: 20px;
+}
+
+.request-item {
+  height: 83px;
+  max-width: 636px;
+  background-color: #ffffff;
+  backdrop-filter: blur(12px);
+  box-shadow: 0px 8px 32px 0px #6e71911f;
+  border-radius: 12px;
+  padding: 16px;
+  .top {
+    margin-bottom: 16px;
+    .name {
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 20px;
+      color: #404040;
+    }
+    .date {
+      font-size: 12px;
+      font-weight: 400;
+      line-height: 20px;
+      color: #a1afc3;
+    }
+  }
+  .bottom {
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 20px;
+    .priority {
+      font-size: 14px;
+      font-weight: 300;
+      line-height: 20px;
+    }
+    .emergency {
+      color: #d74b4b;
+    }
+    .urgent {
+      color: #E3903F;
+    }
+    .less-urgent {
+      color: #157AD8;
+    }
+    .non-urgent {
+      color: #24BF5F;
+    }
+    .status {
+      padding: 3px 8px;
+      border-radius: 100px;
+      font-size: 12px;
+      font-weight: 400;
+      line-height: 14.52px;
+    }
+    .resolved {
+      background-color: #A1AFC3;
+      color: #fff;
+    }
+    .unresolved {
+      background-color: #36A388;
+      color: #fff;
+    }
+  }
+}
