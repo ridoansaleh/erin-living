@@ -17,7 +17,7 @@ export default function MaintenanceForm() {
 
   const handleBackClick = () => {
     router.push("/");
-  }
+  };
 
   const handleUrgencyChange = (value: string) => {
     setUrgency(value);
@@ -44,19 +44,39 @@ export default function MaintenanceForm() {
 
   const options = [
     { value: "Unresolved", label: "Open" },
-    { value: "Resolved", label: "Closed" },
+    { value: "Resolved", label: "Resolved" },
   ];
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    console.log("handleSubmit");
-  };
 
   const validateForm = (): boolean => {
     return Boolean(urgency && title.length >= 10);
   };
 
   const isFormValid = validateForm();
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!isFormValid) return;
+    try {
+      const response = await fetch("/api/maintenance", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ title, urgency, status, description }),
+      });
+      if (response.ok) {
+        // const data = await response.json();
+        // console.log("POST -> DATA : ", data);
+        alert("Task successfully added");
+        router.push("/");
+      } else {
+        alert("Failed to create the task.");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("Failed to create the task.");
+    }
+  };
 
   return (
     <div className="maintenance-form-page">

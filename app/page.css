@@ -16,12 +16,19 @@
       max-width: 343px;
       margin-top: 20px;
       margin-bottom: 20px;
+      @media only screen and (min-width: 992px) {
+        max-width: 420px;
+      }
       .item {
         height: 90px;
         width: 90px;
         background-color: #FFFFFF;
         border-radius: 10px;
         box-shadow: 0px 6px 14px 0px #0000000F;
+        @media only screen and (min-width: 992px) {
+          height: 100px;
+          width: 120px;
+        }
         .number {
           font-size: 36px;
           font-weight: 500;

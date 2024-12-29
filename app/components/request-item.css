@@ -60,6 +60,7 @@
     .unresolved {
       background-color: #36A388;
       color: #fff;
+      cursor: pointer;
     }
   }
 }

@@ -1,38 +1,46 @@
 "use client";
 
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { format } from "date-fns";
+
 import RequestItem from "./components/RequestItem";
 import { IRequest } from "./types";
 import "./page.css";
 
 export default function Home() {
   const router = useRouter();
-  const requests = {
-    open: 2,
-    urgent: 3,
-  };
-  const averageTimeToResolve = 3;
-  const tasks: IRequest[] = [
-    {
-      name: "Front Door Lock broken",
-      createdAt: "11 Dec 2024",
-      priorityLevel: "Urgent",
-      status: "Unresolved",
-    },
-    {
-      name: "Cornice Cracked",
-      createdAt: "15 Nov 2024",
-      priorityLevel: "Less Urgent",
-      status: "Resolved",
-    },
-    {
-      name: "Water Pipe Leaking",
-      createdAt: "10 Nov 2024",
-      priorityLevel: "Emergency",
-      status: "Resolved",
-    },
-  ];
+  const [tasks, setTasks] = useState<IRequest[]>([]);
+  const [totalOpenRequests, setTotalOpenRequests] = useState<number>(0);
+  const [totalUrgentRequests, setTotalUrgentRequests] = useState<number>(0);
+  const [averageTimeToResolve, setAverageTimeToResolve] = useState<number>(0);
+
+  async function fetchMaintenance() {
+    try {
+      const response = await fetch("/api/maintenance");
+      if (response.ok) {
+        const data = await response.json();
+        console.log("DATA : ", data);
+        const formattedData = (data?.requests || []).map((item: IRequest) => ({
+          ...item,
+          created_at: format(item.created_at, "dd MMM yyyy"),
+        }));
+        setTasks(formattedData);
+        setTotalOpenRequests(data?.total_open_requests || 0);
+        setTotalUrgentRequests(data?.total_urgent_requests || 0);
+        setAverageTimeToResolve(data?.average_time_to_resolved || 0);
+      } else {
+        alert("Failed to fetch maintenance list");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  }
+
+  useEffect(() => {
+    fetchMaintenance();
+  }, []);
 
   const handleAddClick = () => {
     router.push("/maintenance-form");
@@ -44,11 +52,11 @@ export default function Home() {
         <h1 className="title">Maintenance Request</h1>
         <div className="stats flex justify-around mx-auto">
           <div className="item flex flex-col justify-center text-center">
-            <span className="number">{requests.open}</span>
+            <span className="number">{totalOpenRequests}</span>
             <p className="label">Open Requests</p>
           </div>
           <div className="item flex flex-col justify-center text-center">
-            <span className="number">{requests.urgent}</span>
+            <span className="number">{totalUrgentRequests}</span>
             <p className="label">Urgent Requests</p>
           </div>
           <div className="item flex flex-col justify-center text-center">
@@ -58,7 +66,11 @@ export default function Home() {
         </div>
         <div className="list">
           {tasks.map((task, index) => (
-            <RequestItem key={index} {...task} />
+            <RequestItem
+              key={index}
+              {...task}
+              onRefreshData={fetchMaintenance}
+            />
           ))}
         </div>
         <Image

@@ -1,4 +1,4 @@
-export type TPriorityLevel =
+export type TUrgencyLevel =
   | "Emergency"
   | "Urgent"
   | "Non Urgent"
@@ -6,8 +6,14 @@ export type TPriorityLevel =
 export type TStatusLevel = "Resolved" | "Unresolved";
 
 export interface IRequest {
-  name: string;
-  createdAt: string;
-  priorityLevel: TPriorityLevel;
+  id: string;
+  title: string;
+  urgency: TUrgencyLevel;
   status: TStatusLevel;
+  description?: string;
+  created_at: string;
+}
+
+export interface RequestItemProps extends IRequest {
+  onRefreshData: () => Promise<void>;
 }

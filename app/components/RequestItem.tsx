@@ -1,4 +1,4 @@
-import { IRequest, TPriorityLevel, TStatusLevel } from "../types";
+import { RequestItemProps, TUrgencyLevel, TStatusLevel } from "../types";
 import "./request-item.css";
 
 const priorityIcons = {
@@ -8,8 +8,8 @@ const priorityIcons = {
   "Less Urgent": "🔨",
 };
 
-const getPriorityClass = (priorityLevel: TPriorityLevel) => {
-  switch (priorityLevel) {
+const getPriorityClass = (urgencyLevel: TUrgencyLevel) => {
+  switch (urgencyLevel) {
     case "Emergency":
       return "emergency";
     case "Urgent":
@@ -35,26 +35,55 @@ const getStatusClass = (status: TStatusLevel) => {
 };
 
 export default function RequestItem({
-  name,
-  createdAt,
-  priorityLevel,
+  id,
+  title,
+  created_at,
+  urgency,
   status,
-}: IRequest) {
-  const priorityClass = getPriorityClass(priorityLevel);
+  onRefreshData,
+}: RequestItemProps) {
+  const priorityClass = getPriorityClass(urgency);
   const statusClass = getStatusClass(status);
+
+  const handleStatusClick = async (id: string, status: TStatusLevel) => {
+    // Prevent to update the resolved task
+    if (status === "Resolved") return;
+    try {
+      const response = await fetch("/api/maintenance", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id }),
+      });
+      if (response.ok) {
+        // const data = await response.json();
+        // console.log("PUT -> DATA : ", data);
+        onRefreshData();
+      } else {
+        alert("Failed to update the task.");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("Failed to update the task.");
+    }
+  };
 
   return (
     <div className="request-item mx-auto">
       <div className="top flex justify-between">
-        <span className="name">{name}</span>
-        <span className="date">{createdAt}</span>
+        <span className="name">{title}</span>
+        <span className="date">{created_at}</span>
       </div>
       <div className="bottom flex justify-between">
         <span className={`priority ${priorityClass}`}>
-          {priorityIcons[priorityLevel]} {priorityLevel}
+          {priorityIcons[urgency]} {urgency}
         </span>
-        <span className={`status ${statusClass}`}>
-          {status === 'Unresolved' ? 'Mark as Resolved' : 'Resolved'}
+        <span
+          className={`status ${statusClass}`}
+          onClick={() => handleStatusClick(id, status)}
+        >
+          {status === "Unresolved" ? "Mark as Resolved" : "Resolved"}
         </span>
       </div>
     </div>
