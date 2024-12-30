@@ -10,29 +10,19 @@ import "./maintenance-form.css";
 
 export default function MaintenanceForm() {
   const router = useRouter();
-  const [urgency, setUrgency] = useState<string>("");
-  const [status, setStatus] = useState<string>("");
-  const [title, setTitle] = useState<string>("");
-  const [description, setDescription] = useState<string>("");
+  const [formData, setFormData] = useState({
+    urgency: "",
+    status: "",
+    title: "",
+    description: "",
+  });
+
+  const handleInputChange = (field: string, value: string) => {
+    setFormData((prev) => ({ ...prev, [field]: value }));
+  };
 
   const handleBackClick = () => {
     router.push("/");
-  };
-
-  const handleUrgencyChange = (value: string) => {
-    setUrgency(value);
-  };
-
-  const handleStatusChange = (value: string) => {
-    setStatus(value);
-  };
-
-  const handleTitleChange = (value: string) => {
-    setTitle(value);
-  };
-
-  const handleDescriptionChange = (value: string) => {
-    setDescription(value);
   };
 
   const urgencyOptions = [
@@ -47,11 +37,7 @@ export default function MaintenanceForm() {
     { value: "Resolved", label: "Resolved" },
   ];
 
-  const validateForm = (): boolean => {
-    return Boolean(urgency && title.length >= 10);
-  };
-
-  const isFormValid = validateForm();
+  const isFormValid = formData.urgency && formData.title.length >= 10;
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -62,7 +48,7 @@ export default function MaintenanceForm() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ title, urgency, status, description }),
+        body: JSON.stringify(formData),
       });
       if (response.ok) {
         alert("Task successfully added");
@@ -94,30 +80,30 @@ export default function MaintenanceForm() {
           <CustomSelect
             label="Urgency *"
             options={urgencyOptions}
-            value={urgency}
-            onChange={handleUrgencyChange}
+            value={formData.urgency}
+            onChange={(value) => handleInputChange("urgency", value)}
             placeholder="Select Urgency"
             className="mb-16"
           />
           <CustomSelect
             label="Status"
             options={options}
-            value={status}
-            onChange={handleStatusChange}
+            value={formData.status}
+            onChange={(value) => handleInputChange("status", value)}
             placeholder="Select Status"
             className="mb-16"
           />
           <CustomInput
             label="Title *"
-            value={title}
-            onChange={handleTitleChange}
+            value={formData.title}
+            onChange={(value) => handleInputChange("title", value)}
             placeholder="eg. Crack in plasterboard"
             className="mb-16"
           />
           <CustomTextarea
-            value={description}
-            onChange={handleDescriptionChange}
             label="Description"
+            value={formData.description}
+            onChange={(value) => handleInputChange("description", value)}
             placeholder="Description of your request"
           />
           <button
