@@ -65,13 +65,19 @@ export default function Home() {
           </div>
         </div>
         <div className="list">
-          {tasks.map((task, index) => (
-            <RequestItem
-              key={index}
-              {...task}
-              onRefreshData={fetchMaintenance}
-            />
-          ))}
+          {tasks.length ? (
+            tasks.map((task, index) => (
+              <RequestItem
+                key={index}
+                {...task}
+                onRefreshData={fetchMaintenance}
+              />
+            ))
+          ) : (
+            <div className="no-request flex justify-center items-center mx-auto">
+              There are no request
+            </div>
+          )}
         </div>
         <Image
           src="/circle-plus.png"
