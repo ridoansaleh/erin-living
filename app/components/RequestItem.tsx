@@ -57,8 +57,6 @@ export default function RequestItem({
         body: JSON.stringify({ id }),
       });
       if (response.ok) {
-        // const data = await response.json();
-        // console.log("PUT -> DATA : ", data);
         onRefreshData();
       } else {
         alert("Failed to update the task.");

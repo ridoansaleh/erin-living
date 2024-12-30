@@ -65,8 +65,6 @@ export default function MaintenanceForm() {
         body: JSON.stringify({ title, urgency, status, description }),
       });
       if (response.ok) {
-        // const data = await response.json();
-        // console.log("POST -> DATA : ", data);
         alert("Task successfully added");
         router.push("/");
       } else {

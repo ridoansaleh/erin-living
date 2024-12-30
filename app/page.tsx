@@ -21,7 +21,6 @@ export default function Home() {
       const response = await fetch("/api/maintenance");
       if (response.ok) {
         const data = await response.json();
-        console.log("DATA : ", data);
         const formattedData = (data?.requests || []).map((item: IRequest) => ({
           ...item,
           created_at: format(item.created_at, "dd MMM yyyy"),
